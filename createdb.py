@@ -1,4 +1,5 @@
 import mysql.connector
+import mysql 
 
 mydb = mysql.connector.connect(
     host="localhost",
@@ -8,8 +9,6 @@ mydb = mysql.connector.connect(
 
 my_cursor = mydb.cursor()
 
-#my_cursor.execute("IF EXIST DROP DATABASE TractorTek")
-my_cursor.execute("CREATE DATABASE TractorTek")
-my_cursor.execute("SHOW DATABASES")
-for db in my_cursor:
-    print(db)
+my_cursor.execute("DROP DATABASE IF EXISTs tractortek")
+my_cursor.execute("CREATE DATABASE tractortek")
+

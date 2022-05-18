@@ -3,9 +3,23 @@
 <div class = "jumbotron">
     <h1></h1>
     <p></p>
-    <form method="POST">
+    <form class="mb-3" method="POST">
+        <div class="col-auto">
         {{form.hidden_tag()}}
-
+        {{form.emp_id.label(class="form-label")}} {{form.emp_id(class="form-control")}}
+        <br/>
+        {{form.week_of_date.label(class="form-label" )}} {{form.week_of_date(class="form-control", placeholder="YYYY-MM-DD")}}
+        <br/>
+        {{form.sales_year.label(class="form-label")}} {{form.sales_year(class="form-control" ,placeholder="YYYY")}}
+        <br/>
+        {{form.sales_quarter.label(class="form-label")}} {{form.sales_quarter(class="form-control")}}
+        <br/>
+        {{form.prod_code.label(class="form-label")}} {{form.prod_code(class="form-control")}}
+        <br/>
+        {{form.unit_sold.label(class="form-label")}} {{form.unit_sold(class="form-control")}}
+        <br/>
+        {{form.submit(class="btn btn-primary")}}
+    </div>
     </form>
 </div>
 {% endblock %}

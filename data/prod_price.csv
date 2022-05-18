@@ -1,4 +1,4 @@
-prod_code,year,quarter,price
+prod_code,sales_year,sales_quarter,prod_price
 PROD006,2020,Q1,4575
 PROD006,2020,Q2,4575
 PROD006,2020,Q3,4575

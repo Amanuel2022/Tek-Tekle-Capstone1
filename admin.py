@@ -22,7 +22,7 @@ app.config['SECRET_KEY'] = 'future teksystem consultant'
 ##########################################
 # Connects this paget to db 
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:Ethio4life(001)@localhost/TractorTek'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:Ethio4life(001)@localhost/tractortek'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
@@ -36,7 +36,7 @@ class ProductPrice(db.Model):
     __tablename__='prod_price'
     prod_code = db.Column(db.VARCHAR(10), primary_key = True)
     sales_year = db.Column(db.Integer, primary_key = True)
-    sales_quarter = db.Column(db.Integer, primary_key = True)
+    sales_quarter = db.Column(db.VARCHAR(10), primary_key = True)
     prod_price = db.Column(db.Integer)
 
 
@@ -48,7 +48,6 @@ class ProductPrice(db.Model):
 
 class EspPrice(db.Model):
     __tablename__='esp_price'
-    # esp_price_id = db.Column(db.Integer, primary_key = True)
     esp_code = db.Column(db.VARCHAR(10), primary_key = True)
     sales_year = db.Column(db.Integer, primary_key = True)
     esp_price = db.Column(db.Integer)
@@ -64,8 +63,8 @@ class Employee(db.Model):
     
     emp_id = db.Column(db.VARCHAR(10), primary_key = True)
     emp_name = db.Column(db.VARCHAR(50))
-    region = db.Column(db.VARCHAR(5))
-    pay_grade = db.Column(db.VARCHAR(5))
+    region = db.Column(db.VARCHAR(10))
+    pay_grade = db.Column(db.VARCHAR(10))
 
     def __init__(self,emp_name,region,pay_grade):
         self.emp_name = emp_name
@@ -78,8 +77,8 @@ class ProdoctInfo(db.Model):
     prod_code = db.Column(db.VARCHAR(10), primary_key=True)
     prod_name = db.Column(db.VARCHAR(100))
     prod_manu = db.Column(db.VARCHAR(100))
-    prod_url = db.Column(db.VARCHAR(1000))
-    prod_link = db.Column(db.VARCHAR(1000))
+    prod_url = db.Column(db.VARCHAR(500))
+    prod_link = db.Column(db.VARCHAR(500))
 
     def __init__(self,prod_code,prod_name,prod_manu,prod_url,prod_link):
         self.prod_code = prod_code
@@ -91,57 +90,56 @@ class ProdoctInfo(db.Model):
 
 class DateTable(db.Model):
     __tablename__='date_table'
+    week_of_date = db.Column(db.VARCHAR(20), primary_key=True)
+    sales_period = db.Column(db.Integer)
+    sales_quarter = db.Column(db.VARCHAR(5))
+    sales_year = db.Column(db.Integer)
 
-    week_of_date = db.Column(db.Date, primary_key=True)
-    week_num = db.Column(db.Integer)
-    period = db.Column(db.Integer)
-    quarter = db.Column(db.VARCHAR(5))
-
-    def __init__(self,week_of_date,week_num,period,quarter):
+    def __init__(self,week_of_date,sales_period,sales_quarter,sales_year):
         self.week_of_date = week_of_date
-        self.week_num = week_num
-        self.period = period
-        self.quarter = quarter
+        self.period = sales_period
+        self.quarter = sales_quarter
+        self.sales_year = sales_year
 
 
 class ProductSale(db.Model):
     __tablename__ = 'prod_sales'
 
     prod_id = db.Column(db.Integer, primary_key = True)
-    emp_id = db.Column(db.VARCHAR(10), db.ForeignKey('employee.emp_id'))
-    week_of_date = db.Column(db.Date, db.ForeignKey('date_table.week_of_date'))
-    prod_code = db.Column(db.VARCHAR(10), db.ForeignKey('prod_info.prod_code'))
+    emp_id = db.Column(db.VARCHAR(10), ForeignKey('employee.emp_id'))
+    week_of_date = db.Column(db.VARCHAR(20), ForeignKey('date_table.week_of_date'))
+    prod_code = db.Column(db.VARCHAR(10), ForeignKey('prod_info.prod_code'))
     sales_year = db.Column(db.Integer)
-    sales_quarter = db.Column(db.Integer)
+    sales_quarter = db.Column(db.VARCHAR(10))
     unit_sold = db.Column(db.Integer)
     __table_args__=(ForeignKeyConstraint([prod_code, sales_year, sales_quarter], [ProductPrice.prod_code, ProductPrice.sales_year, ProductPrice.sales_quarter]),{})
 
-    def __init__(self,emp_id,week_of_date,sales_year,sales_quarter,prod_code,unit_sold):
+    def __init__(self,emp_id,week_of_date,prod_code,sales_year,sales_quarter,unit_sold):
         self.emp_id = emp_id
         self.week_of_date = week_of_date
+        self.prod_code = prod_code
         self.sales_year = sales_year
         self.sales_quarter = sales_quarter
-        self.prod_code = prod_code
         self.unit_sold = unit_sold
 
 class EspSale(db.Model):
     __tablename__= 'esp_sales'
 
-    esp_id = db.Column(db.Integer,primary_key=True)
-    emp_id = db.Column(db.VARCHAR(10), db.ForeignKey('employee.emp_id'))
-    week_of_date = db.Column(db.Date, db.ForeignKey('date_table.week_of_date'))
+    esp_id = db.Column(db.Integer,primary_key=True, autoincrement=True)
+    emp_id = db.Column(db.VARCHAR(10), ForeignKey('employee.emp_id'))
+    week_of_date = db.Column(db.VARCHAR(20), ForeignKey('date_table.week_of_date'))
     esp_code = db.Column(db.VARCHAR(10))
     sales_year = db.Column(db.Integer)
     week_num = db.Column(db.Integer)
     unit_sold = db.Column(db.Integer)
-    __table_args__=(ForeignKeyConstraint([esp_code, sales_year], [EspPrice.esp_code, EspPrice.sales_year]),{})
+    __table_args__ = (ForeignKeyConstraint([esp_code, sales_year], [EspPrice.esp_code, EspPrice.sales_year]),{})
 
-    def __init__(self,emp_id,week_of_date,sales_year,week_num,esp_code, unit_sold):
+    def __init__(self,emp_id,week_of_date,esp_code,sales_year,week_num, unit_sold):
         self.emp_id = emp_id
         self.week_of_date = week_of_date
+        self.esp_code = esp_code
         self.sales_year = sales_year
         self.week_num = week_num
-        self.esp_code = esp_code
         self.unit_sold = unit_sold
 
 
@@ -172,7 +170,7 @@ def prod_add():
         db.session.add(new_prod)
         db.session.commit()
 
-        return redirect(url_for('home'))
+        return redirect(url_for('prod_add'))
     return render_template('prod_add.html', form = form)
 
 # This makes the esp_add page, where employees will enter data
@@ -184,19 +182,19 @@ def esp_add():
        
         emp_id = form.emp_id.data
         week_of_date = form.week_of_date.data
-        sales_year = form.sales_year.data
-        sales_quarter = form.sales_quarter.data
         esp_code = form.esp_code.data
+        sales_year = form.sales_year.data
+        week_num = form.week_num.data
         unit_sold = form.unit_sold.data
 
-        new_esp = EspSale(emp_id,week_of_date,sales_year,sales_quarter,esp_code,unit_sold)
+        new_esp = EspSale(emp_id,week_of_date,esp_code,sales_year,week_num,unit_sold)
         db.session.add(new_esp)
         db.session.commit()
 
         form.emp_id.data = form.emp_id.data
         flash("Sale Submitted Successfully")
 
-        return redirect(url_for('home'))
+        return redirect(url_for('esp_add'))
     return render_template("esp_add.html", form = form)
 
 

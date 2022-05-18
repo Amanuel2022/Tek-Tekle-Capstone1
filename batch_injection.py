@@ -15,6 +15,7 @@ engine = create_engine('mysql+pymysql://root:Ethio4life(001)@localhost/tractorte
 
 # data table
 file_name="Data/date_table.csv"
+# date_cols = ['week_of_date']
 df = pd.read_csv(file_name)
 df.to_sql('date_table', con=engine,if_exists='append',index=False)
 
