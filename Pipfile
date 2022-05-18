@@ -1,0 +1,29 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+numpy = "*"
+cryptography = "*"
+mysql-connector-python = "*"
+mysql = "*"
+requests = "*"
+requests-oauthlib = "*"
+urllib3 = "*"
+wincertstore = "*"
+Flask-WTF = "*"
+WTForms = "*"
+Flask-SQLAlchemy = "*"
+SQLAlchemy = "*"
+Flask-Migrate = "*"
+PyMySQL = "*"
+SQLAlchemy-Utils = "*"
+URLObject = "*"
+Werkzeug = "*"
+pandas = "*"
+
+[dev-packages]
+
+[requires]
+python_version = "3.10"

@@ -1,0 +1,17 @@
+numpy
+Flask-WTF
+WTForms
+Flask-SQLAlchemy
+SQLAlchemy
+Flask-Migrate
+cryptography
+mysql-connector-python
+pymysql
+mysql
+requests
+requests-oauthlib
+sqlalchemy-utils
+urllib3
+urlobject
+werkzeug 
+wincertstore
