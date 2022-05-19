@@ -13,11 +13,11 @@ from wtforms.validators import DataRequired
 class AddProduct(FlaskForm):
 
     emp_id = SelectField('Employee ID: ',choices=[('EMP224','Gina Evans'),('EMP256','Harry Lawson'),('EMP234','Jane Bachmann'),('EMP267','Beverly Clement'),('EMP290','Maude Allen')])
-    week_of_date = StringField('Todays Date: ')
-    sales_year = IntegerField('Sale Year: ')
-    sales_quarter = IntegerField('Sale Quarter: ')
+    week_of_date = StringField('Todays Date: ',validators=[DataRequired()])
+    sales_year = IntegerField('Sale Year: ',validators=[DataRequired()])
+    sales_quarter = IntegerField('Sale Quarter: ',validators=[DataRequired()])
     prod_code = SelectField(u'Product Code', choices=[('PROD_001','PROD_001'),('PROD_002','PROD_002'),('PROD_003','PROD_003'),('PROD_004','PROD_004'),('PROD_005','PROD_005'),('PROD_006','PROD_006'),('PROD_007','PROD_007'),('PROD_008','PROD_008')])
-    unit_sold = IntegerField('Units sold: ')
+    unit_sold = IntegerField('Units sold: ',validators=[DataRequired()])
     submit = SubmitField('Submit')
 
 class AddEsp(FlaskForm):

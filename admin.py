@@ -170,6 +170,8 @@ def prod_add():
         db.session.add(new_prod)
         db.session.commit()
 
+        flash("Sale Submitted Successfully")
+
         return redirect(url_for('prod_add'))
     return render_template('prod_add.html', form = form)
 
@@ -191,7 +193,7 @@ def esp_add():
         db.session.add(new_esp)
         db.session.commit()
 
-        form.emp_id.data = form.emp_id.data
+        
         flash("Sale Submitted Successfully")
 
         return redirect(url_for('esp_add'))
